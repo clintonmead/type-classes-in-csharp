@@ -29,7 +29,7 @@ namespace TypeClasses.List
             return outList.ToTypeApp();
         }
 
-        public TypeApp<ListTypeCon, TOut> Bind<TIn, TOut>(ITypeApp<ListTypeCon, TIn> x, Func<TIn, TypeApp<ListTypeCon, TOut>> f)
+        public TypeApp<ListTypeCon, TOut> Bind<TIn, TOut>(ITypeApp<ListTypeCon, TIn> x, Func<TIn, ITypeApp<ListTypeCon, TOut>> f)
         {
             List<TIn> inList = x.FromTypeApp();
             List<TOut> outList = new List<TOut>();

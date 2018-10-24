@@ -4,19 +4,25 @@ namespace TypeClasses
 {
     public static class Monad
     {
-        public static TypeApp<TMonad, TOut> Bind<TMonad, TOut, TIn>(this ITypeApp<TMonad, TIn> x, Func<TIn, TypeApp<TMonad, TOut>> f)
+        public static TypeApp<TMonad, TOut> Bind<TMonad, TOut, TIn>(this ITypeApp<TMonad, TIn> x, Func<TIn, ITypeApp<TMonad, TOut>> f)
             where TMonad : IMonad<TMonad>, new()
         {
             return new TMonad().Bind(x, f);
         }
 
+        public static TypeApp<TMonad, TOut> Bind<TMonad, TOut, TIn>(this ITypeApp<TMonad, TIn> x, ITypeApp<TMonad, TOut> c)
+            where TMonad : IMonad<TMonad>, new()
+        {
+            return new TMonad().Bind(x, ignore => c);
+        }
+
         public static TypeApp<TMonad, TResult> SelectMany<TMonad, TSource, TCollection, TResult>(
-            this ITypeApp<TMonad, TSource> source,
+            this ITypeApp<TMonad, TSource> sourceMonad,
             Func<TSource, ITypeApp<TMonad, TCollection>> collectionSelector,
             Func<TSource, TCollection, TResult> resultSelector
         ) where TMonad : IMonad<TMonad>, new ()
         {
-            return source.Bind(x => collectionSelector(x).FMap(y => resultSelector(x, y)));
+            return sourceMonad.Bind(source => collectionSelector(source).FMap(y => resultSelector(source, y)));
         }
 
         public static TypeApp<TFunctor, TResult> Select<TFunctor, TSource, TResult>(

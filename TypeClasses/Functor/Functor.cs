@@ -4,7 +4,9 @@ namespace TypeClasses
 {
     public static class Functor
     {
-        public static TypeApp<TFunctor, TOut> FMap<TFunctor, TOut, TIn>(Func<TIn, TOut> f, ITypeApp<TFunctor, TIn> x)
+        public static TypeApp<TFunctor, TOut> FMap<TFunctor, TOut, TIn>(
+            Func<TIn, TOut> f, 
+            ITypeApp<TFunctor, TIn> x)
             where TFunctor : IFunctor<TFunctor>, new()
         {
             return new TFunctor().FMap(f, x);

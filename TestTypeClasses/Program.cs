@@ -39,16 +39,20 @@ namespace TestTypeClasses
             IO<string> string2Action = IO.Readline();
 
             IO<int> num1IOAction = string1Action.FMap(int.Parse);
-            IO<int> num2IOAction = string2Action.FMap(int.Parse);
+            //IO<int> num2IOAction = string2Action.FMap(int.Parse);
 
-            IO<int> numResultIOAction = SeqTwo(num1IOAction, num2IOAction);
+            IO<int> numResultIOAction = SeqTwo(num1IOAction, num1IOAction);
 
             int numResult = numResultIOAction.RunIO();
             Console.WriteLine(numResult);
 
             Console.WriteLine("Done");
 
-            Thread.Sleep(-1);
+            //Thread.Sleep(-1);
+
+            // Infinte IO
+
+            new TestIOLoop().Var.RunIO();
         }
 
         public static TypeApp<TMonad, int> SeqTwo<TMonad>(
@@ -63,5 +67,22 @@ namespace TestTypeClasses
                 let z = 2
                 select x * y * z;
         }
+
+        private class TestIOLoop
+        {
+            public readonly IO<ValueTuple> Var;
+
+            public TestIOLoop()
+            {
+                IO<ValueTuple> line = IO.Readline().Bind(IO.WriteLine);
+                Var = line.Bind<IOTypeCon, ValueTuple, ValueTuple>(ignore => GetVar());
+            }
+
+            private IO<ValueTuple> GetVar()
+            {
+                return Var;
+            }
+        }
+
     }
 }

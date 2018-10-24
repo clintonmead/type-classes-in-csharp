@@ -78,5 +78,13 @@ namespace TypeClasses
             return Create(Console.ReadLine);
         }
 
+        public static IO<ValueTuple> WriteLine(string s)
+        {
+            return Create(() =>
+            {
+                Console.WriteLine(s);
+                return ValueTuple.Create();
+            });
+        }
     }
 }

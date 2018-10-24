@@ -2,7 +2,7 @@
 {
     public struct IOTypeCon : IMonad<IOTypeCon>
     {
-        public TypeApp<IOTypeCon, TOut> Bind<TIn, TOut>(ITypeApp<IOTypeCon, TIn> x, System.Func<TIn, TypeApp<IOTypeCon, TOut>> f)
+        public TypeApp<IOTypeCon, TOut> Bind<TIn, TOut>(ITypeApp<IOTypeCon, TIn> x, System.Func<TIn, ITypeApp<IOTypeCon, TOut>> f)
         {
             return IO.Bind(x.FromTypeApp(), val => f(val).FromTypeApp());
         }

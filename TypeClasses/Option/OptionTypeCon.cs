@@ -9,7 +9,7 @@ namespace TypeClasses
             return Option.FMap(f, x.FromTypeApp());
         }
 
-        public TypeApp<OptionTypeCon, TOut> Bind<TIn, TOut>(ITypeApp<OptionTypeCon, TIn> x, Func<TIn, TypeApp<OptionTypeCon, TOut>> f)
+        public TypeApp<OptionTypeCon, TOut> Bind<TIn, TOut>(ITypeApp<OptionTypeCon, TIn> x, Func<TIn, ITypeApp<OptionTypeCon, TOut>> f)
         {
             return Option.Bind(x.FromTypeApp(), val => f(val).FromTypeApp());
             

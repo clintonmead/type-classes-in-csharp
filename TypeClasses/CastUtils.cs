@@ -27,5 +27,10 @@ namespace TypeClasses
         {
             return x.DynamicCast<TCast>().Match(castSuccessFunc, () => castFailedFunc(x));
         }
+
+        public static void IsType<T>(this T x)
+        {
+        }
+
     }
 }
